@@ -2,6 +2,7 @@
 defineProps<{
   title: string;
   open: boolean;
+  hideToggle?: boolean; // wenn true: Button ausblenden
 }>();
 
 const emit = defineEmits<(e: "toggle") => void>();
@@ -11,7 +12,13 @@ const emit = defineEmits<(e: "toggle") => void>();
   <section class="card">
     <header class="cardHeader">
       <h2 style="margin: 0; font-size: 16px">{{ title }}</h2>
-      <button class="btn" type="button" @click="emit('toggle')">
+
+      <button
+        v-if="!hideToggle"
+        class="btn"
+        type="button"
+        @click="emit('toggle')"
+      >
         {{ open ? "Schließen" : "Öffnen" }}
       </button>
     </header>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import type { OpenLibrarySearchResponse } from "../types/OpenLibrary";
+import type { OpenLibraryDoc, OpenLibrarySearchResponse } from "../types/OpenLibrary";
 
 const props = defineProps<{
   query: string;
@@ -33,7 +33,7 @@ async function load(): Promise<void> {
 
     const data = (await res.json()) as OpenLibrarySearchResponse;
 
-    items.value = data.docs.map((d) => ({
+    items.value = data.docs.map((d: OpenLibraryDoc) => ({
       key: d.key,
       title: d.title,
       authors: (d.author_name ?? []).slice(0, 2).join(", ") || "Unbekannt",
@@ -51,7 +51,7 @@ onMounted(load);
 
 <template>
   <div class="row">
-    <div class="muted">Datenquelle: Open Library (Suche: "{{ query }}")</div>
+    <div class="muted">Datenquelle: Open Library</div>
 
     <div v-if="loading" class="muted">Lade Daten...</div>
     <div v-else-if="error" class="muted">Fehler beim Laden: {{ error }}</div>
